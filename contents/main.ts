@@ -19,8 +19,11 @@ const shader = `// Shader based on glslsandbox.com/e#39393.0
 precision mediump float;
 #endif
 
-uniform float time;
-uniform vec2 resolution;
+#define PI 3.1416
+
+uniform float time; // in seconds, constrained to duration
+uniform float duration; // duration in seconds
+uniform vec2 resolution; // render resolution in pixels
 
 void main(void) {
     vec4 f = vec4(0.0);
@@ -29,12 +32,12 @@ void main(void) {
     g -= f.xy = resolution.xy / 2.0;
     g /= f.y;
 
-    float d = pow(abs(.6 - max(abs(g.x),abs(g.y))), .1);
+    float d = pow(abs(0.248 - max(abs(g.x),abs(g.y))), .1);
 
     g += d;
     g *= g;
 
-    f = vec4(g,d,1) * d * (1.320 + 2. * sin(50.*d+time*4.));
+    f = vec4(g,d,1) * d * (1.768 + 3.112 * sin(50.*d+time*PI*2.));
 
     gl_FragColor = f;
 }
@@ -130,6 +133,12 @@ function main() {
     const canvas = editor.shader.canvas
     const canvasEl: HTMLCanvasElement = editor.shader.el_canvas
 
+    function updateDuration() {
+        canvas._duration = controls['capture-duration'].numericValue * 1000
+    }
+    controls['capture-duration'].on('change', updateDuration)
+    updateDuration()
+
     function getCaptureInfo() {
         const duration = controls['capture-duration'].numericValue * 1000
         const interval = controls['capture-interval'].numericValue
@@ -205,7 +214,7 @@ function main() {
         const {interval, numFrames} = getCaptureInfo()
         for (var i = 0; i < numFrames; i++) {
             captureInfo.innerText = `Capturing frame ${ i+1 }/${ numFrames }`
-            canvas.uniform('1f', 'float', 'time', (i+1) * interval / 1000)
+            canvas.uniform('1f', 'float', 'time', i * interval / 1000)
             gl.drawArrays(gl.TRIANGLES, 0, 6)
 
             // this is faster but the y-axis gets flipped
@@ -239,7 +248,7 @@ function main() {
         renderInfo.innerText = `Ready to render`
     }
 
-    const resultImage = document.querySelector('#result img') as HTMLImageElement
+    const resultContainer = document.querySelector('#result .image') as HTMLParagraphElement
     const resultInfo = document.querySelector('#result .info') as HTMLParagraphElement
 
     if (!canWasm) {
@@ -250,11 +259,15 @@ function main() {
         captureButton.disabled = true
         renderButton.disabled = true
 
+        resultInfo.innerText = ''
+        for (const child of Array.from(resultContainer.childNodes)) {
+            resultContainer.removeChild(child)
+        }
+
         renderInfo.innerText = `Starting render`
         const start = performance.now()
 
-
-        const useWasm = controls['render-backend'].value == 'wasm'
+        const useWasm = controls['render-backend'].value === 'wasm'
         const dither = controls['render-dither'].value
 
         let repeat = controls['render-repeat'].numericValue
@@ -272,6 +285,7 @@ function main() {
             workerScript: useWasm ? 'gif.worker-wasm.js' : 'gif.worker.js',
             workers: controls['render-workers'].numericValue,
             quality,
+            globalPalette: controls['render-palette'].value === 'global',
             width: frameSize.width,
             height: frameSize.height,
             dither: dither === 'None' ? false : dither,
@@ -289,7 +303,9 @@ function main() {
 
         gif.on('finished', (result: Blob) => {
             const dt = (performance.now() - start) / 1000
-            resultImage.src = URL.createObjectURL(result)
+            const image = new Image()
+            image.src = URL.createObjectURL(result)
+            resultContainer.appendChild(image)
             renderInfo.innerText = `Rendering done in ${ dt.toFixed(2) }s`
             captureButton.disabled = false
             renderButton.disabled = false

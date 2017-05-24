@@ -18580,7 +18580,8 @@ var GlslCanvas = (function () {
 
                 if (this.nTime > 1) {
                     // set the elapsed time uniform
-                    this.uniform('1f', 'float', 'time', (now - this.timeLoad) / 1000.0);
+                    this.uniform('1f', 'float', 'time', ((now - this.timeLoad) % this._duration) / 1000.0);
+                    this.uniform('1f', 'float', 'duration', this._duration / 1000.0);
                 }
 
                 if (this.nDate) {

@@ -64,6 +64,13 @@
                 <input id="render-repeat" type="range" step="1" min="0" max="21" value="21">
                 <span class="value">forever</span>
             </p>
+            <p class="control palette">
+                <label for="render-palette">Palette</label>
+                <select id="render-palette">
+                    <option value="local" selected>Local</option>
+                    <option value="global">Global (first frame)</option>
+                </select>
+            </p>
             <p class="control dither">
                 <label for="render-dither">Dither</label>
                 <select id="render-dither">
@@ -97,7 +104,7 @@
         </div>
     </section>
     <section id="result">
-        <img alt="GLSLWASMGIF!" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+        <p class="image"></p>
         <p class="info"></p>
     </section>
     <section id="info">
