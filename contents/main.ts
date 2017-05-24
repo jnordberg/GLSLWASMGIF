@@ -4,7 +4,7 @@ const GlslEditor = window['GlslEditor']
 
 import {EventEmitter} from 'events'
 
-window.addEventListener('DOMContentLoaded', main)
+window.addEventListener('load', main)
 
 function nextTick(): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -150,10 +150,8 @@ function main() {
     updateCanvasSize()
     controls['capture-scale'].on('change', updateCanvasSize)
 
-    setTimeout(() => {
-        canvasEl.parentElement.style.top = '28px'
-        canvasEl.parentElement.style.left = `${ window.innerWidth - 250 - 28 }px`
-    }, 2000)
+    canvasEl.parentElement.style.top = '28px'
+    canvasEl.parentElement.style.left = `${ window.innerWidth - 250 - 28 }px`
 
     function updateCaptureFrames() {
         const {numFrames} = getCaptureInfo()
