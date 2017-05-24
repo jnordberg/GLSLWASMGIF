@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GLSLWASMGIF</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="glslEditor.css">
+    <script src="gif.js"></script>
+    <script src="glslEditor.js"></script>
+    {{ livereloadScript }}<script src="main.js"></script>
+  </head>
+  <body>
+    <h1>GLSLWASMGIF</h1>
+    <section id="editor"></section>
+    <section id="capture">
+        <h2>Capture</h2>
+        <div class="controls">
+            <p class="control duration" data-stuffix="s">
+                <label for="capture-duration">Duration</label>
+                <input id="capture-duration" type="range" step="0.1" min="0.5" max="30" value="3">
+                <span class="value">3s</span>
+            </p>
+            <p class="control interval" data-stuffix="ms">
+                <label for="capture-interval">Interval</label>
+                <input id="capture-interval" type="range" step="10" min="10" max="1000" value="40">
+                <span class="value">40ms</span>
+            </p>
+            <p class="control scale">
+                <label for="capture-scale">Scale</label>
+                <input id="capture-scale" type="range" step="0.1" min="0.5" max="4" value="1">
+                <span class="value">1</span>
+            </p>
+            <p class="control frames">
+                <label>Frames</label>
+                <input id="capture-frames" type="hidden" value="25">
+                <span class="value">25</span>
+            </p>
+            <p class="control size">
+                <label>Size</label>
+                <input id="capture-size" type="hidden" value="250x250">
+                <span class="value">250x250</span>
+            </p>
+            <p class="buttons">
+                <button name="capture">Capture</button>
+            </p>
+            <p class="info"></p>
+        </div>
+    </section>
+    <section id="render">
+        <h2>Render</h2>
+        <div class="controls">
+            <p class="control quality">
+                <label for="render-quality">Quality</label>
+                <input id="render-quality" type="range" step="1" min="1" max="30" value="20">
+                <span class="value">10</span>
+            </p>
+            <p class="control delay" data-stuffix="ms">
+                <label for="render-delay">Delay</label>
+                <input id="render-delay" type="range" step="10" min="20" max="1000" value="40">
+                <span class="value">40ms</span>
+            </p>
+            <p class="control repeat">
+                <label for="render-repeat">Repeat</label>
+                <input id="render-repeat" type="range" step="1" min="0" max="21" value="21">
+                <span class="value">forever</span>
+            </p>
+            <p class="control dither">
+                <label for="render-dither">Dither</label>
+                <select id="render-dither">
+                    <option selected>None</option>
+                    <option>Atkinson</option>
+                    <option>Atkinson-serpentine </option>
+                    <option>FalseFloydSteinberg</option>
+                    <option>FalseFloydSteinberg-serpentine</option>
+                    <option>FloydSteinberg</option>
+                    <option>FloydSteinberg-serpentine</option>
+                    <option>Stucki</option>
+                    <option>Stucki-serpentine</option>
+                </select>
+            </p>
+            <p class="control backend">
+                <label for="render-backend">Backend</label>
+                <select id="render-backend">
+                    <option value="wasm" selected>WebAssembly</option>
+                    <option value="js">JavaScript</option>
+                </select>
+            </p>
+            <p class="control workers">
+                <label for="render-workers">Workers</label>
+                <input id="render-workers" type="range" step="1" min="1" max="20" value="4">
+                <span class="value">4</span>
+            </p>
+            <p class="buttons">
+                <button name="render">Render</button>
+            </p>
+            <p class="info">You must capture first</p>
+        </div>
+    </section>
+    <section id="result">
+        <img alt="GLSLWASMGIF!" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+        <p class="info"></p>
+    </section>
+    <section id="info">
+        {{ contents['info.md'].html }}
+    </section>
+  </body>
+</html>

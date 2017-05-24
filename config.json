@@ -1,0 +1,30 @@
+{
+  "locals": {},
+  "browserify": {
+    "debug": true,
+    "watchify": false,
+    "extensions": [
+      ".ts"
+    ],
+    "plugins": [
+      "tsify"
+    ]
+  },
+  "nunjucks": {
+    "autoescape": false
+  },
+  "stylus": {
+    "dependencies": ["nib"]
+  },
+  "static": [
+    "gif*",
+    "glslEditor*"
+  ],
+  "plugins": [
+    "wintersmith-browserify",
+    "wintersmith-nunjucks",
+    "wintersmith-livereload",
+    "wintersmith-stylus",
+    "./plugins/static.coffee"
+  ]
+}

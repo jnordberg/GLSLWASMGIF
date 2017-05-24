@@ -1,0 +1,71 @@
+@import 'nib'
+
+body
+  margin: 0
+  background-color: #272822
+  color: #f8f8f2
+
+body, input, button, select
+  font-family: "Source Code Pro", monospace
+  font-size: 14px
+
+h1
+  font-size: 2em
+  margin: 1em 2em
+
+h2
+  font-size: 1.6em
+  margin: 1em 1em
+
+#editor
+  .ge_canvas_container
+    position: absolute
+  .ge_editor .CodeMirror
+    margin-top: 0
+  .ge_control
+    display: none
+
+#capture, #render
+  float: left
+  width: 30em
+  padding-bottom: 2em
+  h2
+    margin-left: 4.7em
+
+#capture
+  width: 26em
+
+#result, #info
+  background: #f8f8f2
+  color: #272822
+  padding: 2em 0
+  margin: 0
+
+#result
+  clear: both
+  img
+    display: block
+    margin: 0 auto
+  .info
+    margin: 0
+    text-align: center
+
+.controls
+  margin: 1em
+  .info
+    margin-left: 6em
+  .control
+    white-space: nowrap
+    input
+      width: 12em
+
+    label
+      color: #546e7a
+      width: 6em
+      display: inline-block
+      text-align: right
+  .buttons
+    margin-left: 6em
+
+#info
+  padding: 2em
